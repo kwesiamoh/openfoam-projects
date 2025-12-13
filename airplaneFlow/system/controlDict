@@ -1,0 +1,63 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt	        endTime;
+
+endTime         50;
+
+deltaT          1;
+
+writeInterval   50;
+
+writeFormat     ascii;
+
+
+functions
+{
+    forceCoeffs1
+    {
+        type            forceCoeffs;
+        libs            ("libforces.so");
+        patches         (object);
+        coefficients    (Cd);
+        magUInf         50;
+        Aref            25;
+        rhoInf          1;
+        dragDir         (1 0 0);
+
+        // the following values have no influence on Cd
+        lRef            1;
+        CofR            (1 1 1);
+        origin          (1 1 1);
+        liftDir         (0 0 1);
+        rho             rhoInf;
+        writeInterval   1;
+        writeTime       runTime;
+    }
+	
+	solverInfo
+	{
+		type		solverInfo;
+		libs		("libutilityFunctionObjects.so");
+		fields 		(U p);
+	}
+}
+
